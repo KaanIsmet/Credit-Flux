@@ -32,13 +32,21 @@ public class User {
     @Column(name = "updatedAt")
     private LocalDateTime updatedAt;
 
-    public User(String email, String password, String firstName, String lastName, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    @Column(name = "role")
+    private String role;
+
+    @Column(name = "enabled")
+    private boolean enabled;
+
+    public User(String email, String password, String firstName, String lastName, LocalDateTime createdAt, LocalDateTime updatedAt, String role, boolean enabled) {
         this.email = email;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+        this.role = role;
+        this.enabled = enabled;
     }
 
     public UUID getId() {
@@ -91,5 +99,21 @@ public class User {
 
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 }
