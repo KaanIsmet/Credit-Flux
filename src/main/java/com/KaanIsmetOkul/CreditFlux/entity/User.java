@@ -14,6 +14,9 @@ public class User {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
+    @Column(name = "username")
+    private String username;
+
     @Column(name = "email")
     private String email;
 
@@ -38,8 +41,9 @@ public class User {
     @Column(name = "enabled")
     private boolean enabled;
 
-    public User(String email, String password, String firstName, String lastName, LocalDateTime createdAt, LocalDateTime updatedAt, String role, boolean enabled) {
+    public User(String email, String username, String password, String firstName, String lastName, LocalDateTime createdAt, LocalDateTime updatedAt, String role, boolean enabled) {
         this.email = email;
+        this.username = username;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -49,8 +53,17 @@ public class User {
         this.enabled = enabled;
     }
 
+
     public UUID getId() {
         return id;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getEmail() {
