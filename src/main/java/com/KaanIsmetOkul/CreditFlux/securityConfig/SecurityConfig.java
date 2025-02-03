@@ -19,30 +19,30 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
     @Autowired
-    private CustomUserDetailsService customUserDetailsService;
+    private final CustomUserDetailsService customUserDetailsService;
 
     public SecurityConfig(CustomUserDetailsService customUserDetailsService) {
         this.customUserDetailsService = customUserDetailsService;
     }
 
-    public SecurityFilterChain SecurityFilterChain(HttpSecurity http) throws Exception {
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((authorize) -> authorize
-                        .requestMatchers("/login", "/api/v1/users/**").permitAll()
-                        .anyRequest().authenticated())
-                .formLogin(formLogin -> formLogin.loginPage("/login").permitAll())
+                        .requestMatchers("/api/v1/users").permitAll()  // Allow user registration
+                        .anyRequest().authenticated())  // Secure everything else
+                .formLogin(formLogin -> formLogin.loginPage("/login").permitAll()) // Keep login page
                 .logout(LogoutConfigurer::permitAll);
 
         return http.build();
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(HttpSecurity http) throws Exception{
+    public AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
         AuthenticationManagerBuilder authBuilder = http.getSharedObject(AuthenticationManagerBuilder.class);
         authBuilder.userDetailsService(customUserDetailsService).passwordEncoder(passwordEncoder());
         return authBuilder.build();
-
     }
 
     @Bean
@@ -50,3 +50,4 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 }
+
