@@ -3,6 +3,7 @@ package com.KaanIsmetOkul.CreditFlux.controller;
 import com.KaanIsmetOkul.CreditFlux.entity.User;
 import com.KaanIsmetOkul.CreditFlux.exceptionHandling.ResourceNotFound;
 import com.KaanIsmetOkul.CreditFlux.repository.UserRepository;
+import com.KaanIsmetOkul.CreditFlux.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +22,7 @@ public class Controller {
     private UserRepository userRepository;
 
     @Autowired
-    private PasswordEncoder passwordEncoder;
+    private UserService userService;
 
     @GetMapping("/users")
     public List<User> getAllUsers() {
@@ -30,8 +31,7 @@ public class Controller {
 
     @PostMapping("/users")
     public ResponseEntity<User> saveUser(@RequestBody User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        User savedUser = userRepository.save(user);
+        User savedUser = userService.saveUser(user);
         return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
     }
 
