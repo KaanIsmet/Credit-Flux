@@ -1,5 +1,6 @@
 package com.KaanIsmetOkul.CreditFlux.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -29,9 +30,11 @@ public class User {
     @Column(name = "lastName")
     private String lastName;
 
+    @JsonFormat(pattern = "yyyy-mm-dd HH:mm:ss")
     @Column(name = "createdAt")
     private LocalDateTime createdAt;
 
+    @JsonFormat(pattern = "yyyy-mm-dd HH:mm:ss")
     @Column(name = "updatedAt")
     private LocalDateTime updatedAt;
 
@@ -40,6 +43,8 @@ public class User {
 
     @Column(name = "enabled")
     private boolean enabled;
+
+    public User() {}
 
     public User(String email, String username, String password, String firstName, String lastName, LocalDateTime createdAt, LocalDateTime updatedAt, String role, boolean enabled) {
         this.email = email;
@@ -51,6 +56,17 @@ public class User {
         this.updatedAt = updatedAt;
         this.role = role;
         this.enabled = enabled;
+    }
+
+    @PrePersist
+    public void onCreate() {
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    public void onUpdate() {
+        this.updatedAt = LocalDateTime.now();
     }
 
 
@@ -102,17 +118,10 @@ public class User {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
     public LocalDateTime getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
-    }
 
     public boolean isEnabled() {
         return enabled;
