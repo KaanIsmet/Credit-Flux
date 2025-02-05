@@ -7,10 +7,13 @@ import com.KaanIsmetOkul.CreditFlux.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 @CrossOrigin(origins = "http://localhost:3000")
@@ -23,6 +26,10 @@ public class Controller {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
 
     @GetMapping("/users")
     public List<User> getAllUsers() {
@@ -41,6 +48,16 @@ public class Controller {
                 () -> new ResourceNotFound("Unable to find user: " + id)
         );
         return ResponseEntity.ok(user);
+    }
+
+
+    public ResponseEntity<?> validateCredentials(@RequestBody Map<String, String> credentials) {
+//        try {
+//            Authentication authentication = authenticationManager.authenticate(
+//
+//            )
+//        }
+        return null; //placeholder
     }
 
 }

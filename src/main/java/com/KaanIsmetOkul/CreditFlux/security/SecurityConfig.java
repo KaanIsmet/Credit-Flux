@@ -1,4 +1,4 @@
-package com.KaanIsmetOkul.CreditFlux.securityConfig;
+package com.KaanIsmetOkul.CreditFlux.security;
 
 import com.KaanIsmetOkul.CreditFlux.service.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +32,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests((authorize) -> authorize
                         .requestMatchers("/api/v1/users").permitAll()  // Allow user registration
                         .anyRequest().authenticated())  // Secure everything else
-                .formLogin(formLogin -> formLogin.loginPage("/login").permitAll()) // Keep login page
+                .formLogin(formLogin -> formLogin.loginPage("/login").permitAll())// Keep login page
                 .logout(LogoutConfigurer::permitAll);
 
         return http.build();
