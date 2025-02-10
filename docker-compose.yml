@@ -1,0 +1,35 @@
+version: '3.8'
+services:
+  mysql:
+    image: mysql:8.0
+    environment:
+      MYSQL_DATABASE: creditfluxdb
+      MYSQL_USER: kaan
+      MYSQL_PASSWORD: Ranacim123
+      MYSQL_ROOT_PASSWORD: rootpassword
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - DB_USERNAME=kaan
+      - DB_PASSWORD=Ranacim123
+      - DB_URL=jdbc:mysql://mysql:3306/creditfluxdb
+      - SPRING_APPLICATION_NAME=CreditFlux
+      # Ensure dotenv is enabled
+      - DOTENV_ENABLE=true
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysql
+    # Optional: Mount .env file if needed
+    volumes:
+      - ./.env:/app/.env
+
+volumes:
+  mysql-data:
