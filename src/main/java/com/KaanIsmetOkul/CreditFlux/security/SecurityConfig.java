@@ -10,6 +10,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
+import org.springframework.security.config.annotation.web.configurers.oauth2.client.OAuth2ClientConfigurer;
+import org.springframework.security.config.annotation.web.configurers.oauth2.client.OAuth2LoginConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -33,6 +35,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/v1/users").permitAll()  // Allow user registration
                         .anyRequest().authenticated())  // Secure everything else
                 .formLogin(formLogin -> formLogin.loginPage("/login").permitAll())// Keep login page
+
                 .logout(LogoutConfigurer::permitAll);
 
         return http.build();
