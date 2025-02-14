@@ -1,4 +1,5 @@
 package com.KaanIsmetOkul.CreditFlux.security;
+import com.KaanIsmetOkul.CreditFlux.exceptionHandling.SignatureNotFound;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -48,7 +49,7 @@ public class JwtTokenProvider {
         return claims.getSubject();
     }
 
-    public boolean validateToken(String token) {
+    public boolean validateToken(String token) throws SignatureNotFound {
         try {
             Jwts.parser().verifyWith(getSigningKey())
                     .build()
@@ -57,7 +58,7 @@ public class JwtTokenProvider {
             return true;
         }
         catch (SignatureException e) {
-            throw new SignatureException("Unable to find validate toke", e);
+            throw new SignatureNotFound("Unable to validate token");
         }
     }
 }
