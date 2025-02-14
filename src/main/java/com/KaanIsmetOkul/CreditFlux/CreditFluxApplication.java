@@ -8,11 +8,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class CreditFluxApplication {
 
 	public static void main(String[] args) {
-		Dotenv dotenv = Dotenv.load();
-		System.setProperty("DB_USERNAME", dotenv.get("DB_USERNAME"));
-		System.setProperty("DB_PASSWORD", dotenv.get("DB_PASSWORD"));
-		System.setProperty("DB_URL", dotenv.get("DB_URL"));
-		System.setProperty("SPRING_APPLICATION_NAME", dotenv.get("SPRING_APPLICATION_NAME"));
+//		Dotenv dotenv = Dotenv.load();
+//		System.out.println("DB_URL: " + dotenv.get("DB_URL"));
+//		System.out.println("DB_USERNAME: " + dotenv.get("DB_USERNAME"));
+//		System.out.println("DB_PASSWORD: " + dotenv.get("DB_PASSWORD"));
+//		dotenv.entries().forEach(entry -> System.setProperty(entry.getKey(), entry.getValue()));
 		SpringApplication.run(CreditFluxApplication.class, args);
 	}
 
