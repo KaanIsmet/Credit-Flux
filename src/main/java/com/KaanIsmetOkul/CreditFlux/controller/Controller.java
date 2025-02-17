@@ -2,13 +2,19 @@ package com.KaanIsmetOkul.CreditFlux.controller;
 
 import com.KaanIsmetOkul.CreditFlux.entity.User;
 import com.KaanIsmetOkul.CreditFlux.exceptionHandling.ResourceNotFound;
+import com.KaanIsmetOkul.CreditFlux.exceptionHandling.UserNotFound;
+import com.KaanIsmetOkul.CreditFlux.exceptionHandling.ValidateUserException;
 import com.KaanIsmetOkul.CreditFlux.repository.UserRepository;
+import com.KaanIsmetOkul.CreditFlux.security.JwtTokenProvider;
 import com.KaanIsmetOkul.CreditFlux.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,6 +35,9 @@ public class Controller {
 
     @Autowired
     private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private JwtTokenProvider jwtTokenProvider;
 
 
     @GetMapping("/users")
@@ -51,13 +60,28 @@ public class Controller {
     }
 
 
-    public ResponseEntity<?> validateCredentials(@RequestBody Map<String, String> credentials) {
-//        try {
-//            Authentication authentication = authenticationManager.authenticate(
-//
-//            )
-//        }
-        return null; //placeholder
+    public ResponseEntity<?> validateCredentials(@RequestBody Map<String, String> credentials) throws ValidateUserException {
+        try {
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            credentials.get("username"),
+                            credentials.get("password")
+
+                    )
+            );
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            String jwt = jwtTokenProvider.generateToken(authentication);
+
+            return ResponseEntity.ok(Map.of(
+                    "token", jwt,
+                    "type", "Bearer",
+                    "username", authentication.getName()
+                    )
+            );
+        } catch (AuthenticationException e) {
+            throw new  ValidateUserException("Unable to validate user");
+        }
+
     }
 
 }
