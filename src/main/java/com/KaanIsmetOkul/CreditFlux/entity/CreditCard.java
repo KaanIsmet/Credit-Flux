@@ -18,7 +18,8 @@ public class CreditCard {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "issuer")
+   @ManyToOne
+   @JoinColumn(name = "issuer_id", referencedColumnName = "id", nullable = false)
     private String issuer;
 
     @Column(name = "annual_fee")
