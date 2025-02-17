@@ -18,9 +18,9 @@ public class CreditCard {
     @Column(name = "name")
     private String name;
 
-   @ManyToOne
-   @JoinColumn(name = "issuer_id", referencedColumnName = "id", nullable = false)
-    private String issuer;
+   @ManyToOne(fetch = FetchType.LAZY)
+   @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
+    private User user;
 
     @Column(name = "annual_fee")
     private BigDecimal annualFee;
@@ -31,9 +31,8 @@ public class CreditCard {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    public CreditCard(String name, String issuer, BigDecimal annualFee, LocalDateTime createAt, LocalDateTime updatedAt) {
+    public CreditCard(String name, BigDecimal annualFee, LocalDateTime createAt, LocalDateTime updatedAt) {
         this.name = name;
-        this.issuer = issuer;
         this.annualFee = annualFee;
         this.createAt = createAt;
         this.updatedAt = updatedAt;
@@ -51,12 +50,8 @@ public class CreditCard {
         this.name = name;
     }
 
-    public String getIssuer() {
-        return issuer;
-    }
-
-    public void setIssuer(String issuer) {
-        this.issuer = issuer;
+    public User getUser() {
+        return user;
     }
 
     public BigDecimal getAnnualFee() {
