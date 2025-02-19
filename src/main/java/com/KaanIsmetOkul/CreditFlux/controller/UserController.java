@@ -2,7 +2,6 @@ package com.KaanIsmetOkul.CreditFlux.controller;
 
 import com.KaanIsmetOkul.CreditFlux.entity.User;
 import com.KaanIsmetOkul.CreditFlux.exceptionHandling.ResourceNotFound;
-import com.KaanIsmetOkul.CreditFlux.exceptionHandling.UserNotFound;
 import com.KaanIsmetOkul.CreditFlux.exceptionHandling.ValidateUserException;
 import com.KaanIsmetOkul.CreditFlux.repository.UserRepository;
 import com.KaanIsmetOkul.CreditFlux.security.JwtTokenProvider;
@@ -19,13 +18,12 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.UUID;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("api/v1/")
-public class Controller {
+public class UserController {
 
     @Autowired
     private UserRepository userRepository;

@@ -1,9 +1,11 @@
 package com.KaanIsmetOkul.CreditFlux.entity;
 
+import com.KaanIsmetOkul.CreditFlux.repository.ExpenseRepository;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -43,6 +45,9 @@ public class User {
 
     @Column(name = "enabled")
     private boolean enabled;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Expense> expenses;
 
     public User() {}
 
