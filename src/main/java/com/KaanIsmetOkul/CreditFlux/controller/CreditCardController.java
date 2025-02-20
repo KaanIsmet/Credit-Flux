@@ -22,9 +22,9 @@ public class CreditCardController {
     @Autowired
     private CreditCardService creditCardService;
 
-    @GetMapping("/card/{id}")
-    public ResponseEntity<CreditCard> getCard(@PathVariable UUID user_id) {
-        CreditCard creditCard = creditCardRepository.findByUser_Id(user_id).orElseThrow(
+    @GetMapping("/card/{userId}/{id}")
+    public ResponseEntity<CreditCard> getCard(@PathVariable UUID user_id, @PathVariable UUID id) {
+        CreditCard creditCard = creditCardRepository.findByIdAndUser_Id(id, user_id).orElseThrow(
                 () -> new ResourceNotFound("Unable to find credit card with user" + user_id)
         );
         return ResponseEntity.ok(creditCard);
