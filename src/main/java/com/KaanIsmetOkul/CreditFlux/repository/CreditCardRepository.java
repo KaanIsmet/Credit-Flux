@@ -10,7 +10,6 @@ import java.util.UUID;
 
 @Repository
 public interface CreditCardRepository extends JpaRepository<CreditCard, UUID> {
-    Optional<CreditCard> findByName(String name);
-    Optional<CreditCard> findByUser_Id(UUID userId);
+    Optional<CreditCard> findByIdAndUser_Id(UUID id, UUID userId);
     List<CreditCard> findAllByUser_Id(UUID userId);
 }
